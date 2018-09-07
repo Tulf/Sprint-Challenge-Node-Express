@@ -157,7 +157,7 @@ const {project_id, description, notes} = req.body;
   })
   .catch(err => {
     console.log(err)
-    res.status(500).json({error: "Failed to add user"})
+    res.status(500).json({error: "Failed to add action"})
   })
 })
 
@@ -174,7 +174,7 @@ server.post('/projects',  (req, res) => {
   })
   .catch(err => {
     console.log(err)
-    res.status(500).json({error: "Failed to add user"})
+    res.status(500).json({error: "Failed to add project"})
   })
 })
 // ---DELETE requests ------////
@@ -194,7 +194,7 @@ server.delete('/actions/:id', (req, res) => {
     })
     .catch(err =>{
       console.log(err)
-      res.status(500).json({ error: "can't delete user" })
+      res.status(500).json({ error: "can't delete action" })
   })
 })
 // projects
@@ -212,7 +212,7 @@ server.delete('/projects/:id', (req, res) => {
     })
     .catch(err =>{
       console.log(err)
-      res.status(500).json({ error: "can't delete user" })
+      res.status(500).json({ error: "can't delete project" })
   })
 })
 // ---PUT requests ------////
@@ -224,7 +224,7 @@ server.put('/actions/:id',  (req, res) =>{
   const  { description, notes } = req.body;
 
   if(!description || !notes){
-    res.status(400).json({error: "Please christen this poor virtual soul"})
+    res.status(400).json({error: "Please provide a new description and notes field"})
   }
 
   actiondb.update(id,  { description, notes })
@@ -238,7 +238,7 @@ server.put('/actions/:id',  (req, res) =>{
   })
   .catch(err => {
     console.log(err)
-    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
+    res.status(500).json({message: "Failed to update action"})
   })
 })
 // projects
@@ -249,7 +249,7 @@ server.put('/projects/:id', (req, res) =>{
 
 
   if(!name || !description){
-    res.status(400).json({error: "Please christen this poor virtual soul"})
+    res.status(400).json({error: "Please provide a new name and decription for this project"})
   }
 
   projectdb.update(id, { name, description})
@@ -263,78 +263,10 @@ server.put('/projects/:id', (req, res) =>{
   })
   .catch(err => {
     console.log(err)
-    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
+    res.status(500).json({message: "Failed to update project"})
   })
 })
 
 
-
-
-//posts
-
-//--Add user through Post
-server.post('/users/:id',  (req, res) => {
-
-  const username = req.body.name;
-  if(!username){
-    res.status(400).json({message: "Please provide a name for this user"})
-  }
-  userdb.insert(req.body)
-  .then(user => {
-    res.status(200).json(user)
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(500).json({error: "Failed to add user"})
-  })
-})
-// //getting sql  constraint for duplicate names how to  handle this exception?
-// // How to add with specified route id?
-//
-//Delete User
-server.delete('/users/:id', (req, res) => {
-
-  const id = req.params.id;
-  userdb.remove(id)
-  .then(user => {
-    if(user === 0) {
-      res.status(400).json({ message: "please use a valid id"})
-    }
-    else{
-      res.status(200).json(user)
-    }
-    })
-    .catch(err =>{
-      console.log(err)
-      res.status(500).json({ error: "can't delete user" })
-  })
-})
-//
-//
-// //Update User
-server.put('/users/:id', capatlize, (req, res) =>{
-
-  const id = req.params.id;
-  const name = req.body.name;
-  const body = req.body
-
-  if(!name){
-    res.status(400).json({error: "Please christen this poor virtual soul"})
-  }
-
-  userdb.update(id, body)
-  .then(user => {
-    if(user === 0){
-      res.status(400).json({message: 'This Id does not exist'})
-    }
-    else{
-      res.status(200).json(user)
-    }
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
-  })
-})
 //Listener
 server.listen(8000, ( ) => console.log('\n == API on port 8000 =='))
