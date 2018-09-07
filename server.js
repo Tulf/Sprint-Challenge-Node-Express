@@ -4,39 +4,6 @@ const actiondb = require("./data/helpers/actionModel.js")
 const projectdb = require("./data/helpers/projectModel.js")
 const cors = require("cors");
 
-
-
-
-//middleware
-server.use(express.json())
-
-// function logger(req, res, next) {
-//   console.log(`${req.method} to ${req.url}`);
-//
-//   next(); //calls the next middleware in the queue
-// }
-
-
-// for all
-function userToUpperCase(req, res, next) {
-  req.monkey = true
-  next();
-}
-//for a particular user
-function capatlize( req, res, next){
-  req.body.name = req.body.name.toUpperCase();
-  next();
-}
-
-
-//ask eric why you need req.monkey and note just a declared bolean value?
-
-/*
-reusable bit of captalization:
-if(req.monkey) {users = users.map(each =>
-    each.name.toUpperCase())
-*/
-
 //----------------routes: ------------------------//
 
 // initial
