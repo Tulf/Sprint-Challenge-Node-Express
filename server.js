@@ -120,6 +120,27 @@ server.get('/projects/:id',  (req, res) => {
     })
 })
 
+//--Get post for a given user:
+server.get('/projects/actions/:project_id', (req,res) => {
+
+  const project_id = req.params.project_id;
+
+  projectdb
+  .getProjectActions(project_id)
+    .then(user => {
+      if(user.length === 0){
+        res.status(400).json({message: 'This id could not be found'})
+      }
+      else{
+        res.status(200).json(user)
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(404).json({error: "failed to get user"})
+    })
+})
+
 // //posts
 // server.get('/posts', (req, res) => {
 //
@@ -171,25 +192,7 @@ server.get('/projects/:id',  (req, res) => {
 //       res.status(500).json({error: 'Cannot Get Users'})
 //     })
 // })
-// //--Get post for a given user:
-// server.get('/users/posts/:id', (req,res) => {
-//
-//   const id = req.params.id;
-//
-//   userdb.getUserPosts(id)
-//     .then(user => {
-//       if(user.length === 0){
-//         res.status(400).json({message: 'This id could not be found'})
-//       }
-//       else{
-//         res.status(200).json(user)
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(404).json({error: "failed to get user"})
-//     })
-// })
+
 // //--Add user through Post
 // server.post('/users/:id', capatlize, (req, res) => {
 //
