@@ -120,7 +120,7 @@ server.get('/projects/:id',  (req, res) => {
     })
 })
 
-//--Get post for a given user:
+//--Get actions for a given project
 server.get('/projects/actions/:project_id', (req,res) => {
 
   const project_id = req.params.project_id;
@@ -141,74 +141,76 @@ server.get('/projects/actions/:project_id', (req,res) => {
     })
 })
 
-// //posts
-// server.get('/posts', (req, res) => {
-//
-//     const id = req.params.id;
-//     postdb.get(id)
-//     .then(users => {
-//         res.status(200).json(users)
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(500).json({error: 'Cannot Get Posts'})
-//     })
-// })
-// //posts by post id, cannot seem to do it by userId this way.
-// server.get('/posts/:id', (req, res) => {
-//
-//     const id = req.params.id;
-//     postdb.get(id)
-//     .then(posts => {
-//       if(posts){
-//         res.status(200).json(posts)
-//       }
-//       else{
-//         res.status(404).json({error: "do it right moron"})
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(500).json({error: 'Cannot Get Posts'})
-//     })
-// })
-// // --Get User By id
-// server.get('/users/:id',  (req, res) => {
-//
-//     const id = req.params.id;
-//
-//     userdb.get(id)
-//     .then(users => {
-//       if(users){
-//
-//         res.status(200).json(users)
-//       }
-//       else{
-//         res.status(404).json({error: "do it right moron"})
-//       }
-//     })
-//     .catch(err => {
-//       console.log(err)
-//       res.status(500).json({error: 'Cannot Get Users'})
-//     })
-// })
+// ---POST requests ------////
 
-// //--Add user through Post
-// server.post('/users/:id', capatlize, (req, res) => {
-//
-//   const username = req.body.name;
-//   if(!username){
-//     res.status(400).json({message: "Please provide a name for this user"})
-//   }
-//   userdb.insert(req.body)
-//   .then(user => {
-//     res.status(200).json(user)
-//   })
-//   .catch(err => {
-//     console.log(err)
-//     res.status(500).json({error: "Failed to add user"})
-//   })
-// })
+//actions
+server.post('/actions/',  (req, res) => {
+
+const {project_id, description, notes} = req.body;
+  if(!project_id || !description || !notes){
+    res.status(400).json({message: "Please provide a project_id, name and description for this project, thank you kindly"})
+    console.log(req.body)
+  }
+  actiondb.insert({ project_id, description, notes })
+  .then(response => {
+    res.status(200).json(response)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({error: "Failed to add user"})
+  })
+})
+
+// projects
+server.post('/projects',  (req, res) => {
+
+    const { name, description } = req.body
+  if(!name || !description){
+    res.status(400).json({message: "Please provide a name and a description for this project, thank you kindly"})
+  }
+  projectdb.insert({ name, description } )
+  .then(user => {
+    res.status(201).json(user)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({error: "Failed to add user"})
+  })
+})
+// ---DELETE requests ------////
+
+//actions
+
+// projects
+
+// ---PUT requests ------////
+
+//actions
+
+// projects
+
+
+
+
+
+//posts
+
+//--Add user through Post
+server.post('/users/:id',  (req, res) => {
+
+  const username = req.body.name;
+  if(!username){
+    res.status(400).json({message: "Please provide a name for this user"})
+  }
+  userdb.insert(req.body)
+  .then(user => {
+    res.status(200).json(user)
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({error: "Failed to add user"})
+  })
+})
 // //getting sql  constraint for duplicate names how to  handle this exception?
 // // How to add with specified route id?
 //
