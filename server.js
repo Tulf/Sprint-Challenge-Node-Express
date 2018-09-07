@@ -180,9 +180,41 @@ server.post('/projects',  (req, res) => {
 // ---DELETE requests ------////
 
 //actions
+server.delete('/actions/:id', (req, res) => {
 
+  const id = req.params.id;
+  actiondb.remove(id)
+  .then(user => {
+    if(user === 0) {
+      res.status(400).json({ message: "please use a valid id"})
+    }
+    else{
+      res.status(200).json(user)
+    }
+    })
+    .catch(err =>{
+      console.log(err)
+      res.status(500).json({ error: "can't delete user" })
+  })
+})
 // projects
+server.delete('/projects/:id', (req, res) => {
 
+  const id = req.params.id;
+  projectdb.remove(id)
+  .then(user => {
+    if(user === 0) {
+      res.status(400).json({ message: "please use a valid id"})
+    }
+    else{
+      res.status(200).json(user)
+    }
+    })
+    .catch(err =>{
+      console.log(err)
+      res.status(500).json({ error: "can't delete user" })
+  })
+})
 // ---PUT requests ------////
 
 //actions
@@ -214,24 +246,24 @@ server.post('/users/:id',  (req, res) => {
 // //getting sql  constraint for duplicate names how to  handle this exception?
 // // How to add with specified route id?
 //
-// //Delete User
-// server.delete('/users/:id', (req, res) => {
-//
-//   const id = req.params.id;
-//   userdb.remove(id)
-//   .then(user => {
-//     if(user === 0) {
-//       res.status(400).json({ message: "please use a valid id"})
-//     }
-//     else{
-//       res.status(200).json(user)
-//     }
-//     })
-//     .catch(err =>{
-//       console.log(err)
-//       res.status(500).json({ error: "can't delete user" })
-//   })
-// })
+//Delete User
+server.delete('/users/:id', (req, res) => {
+
+  const id = req.params.id;
+  userdb.remove(id)
+  .then(user => {
+    if(user === 0) {
+      res.status(400).json({ message: "please use a valid id"})
+    }
+    else{
+      res.status(200).json(user)
+    }
+    })
+    .catch(err =>{
+      console.log(err)
+      res.status(500).json({ error: "can't delete user" })
+  })
+})
 //
 //
 // //Update User
