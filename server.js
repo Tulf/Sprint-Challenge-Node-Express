@@ -218,9 +218,54 @@ server.delete('/projects/:id', (req, res) => {
 // ---PUT requests ------////
 
 //actions
+server.put('/actions/:id',  (req, res) =>{
 
+  const id  = req.params.id
+  const  { description, notes } = req.body;
+
+  if(!description || !notes){
+    res.status(400).json({error: "Please christen this poor virtual soul"})
+  }
+
+  actiondb.update(id,  { description, notes })
+  .then(user => {
+    if(user === 0){
+      res.status(400).json({message: 'This Id does not exist'})
+    }
+    else{
+      res.status(200).json(user)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
+  })
+})
 // projects
+server.put('/projects/:id', (req, res) =>{
 
+  const id  = req.params.id
+  const  { name, description} = req.body;
+
+
+  if(!name || !description){
+    res.status(400).json({error: "Please christen this poor virtual soul"})
+  }
+
+  projectdb.update(id, { name, description})
+  .then(user => {
+    if(user === 0){
+      res.status(400).json({message: 'This Id does not exist'})
+    }
+    else{
+      res.status(200).json(user)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
+  })
+})
 
 
 
@@ -267,29 +312,29 @@ server.delete('/users/:id', (req, res) => {
 //
 //
 // //Update User
-// server.put('/users/:id', capatlize, (req, res) =>{
-//
-//   const id = req.params.id;
-//   const name = req.body.name;
-//   const body = req.body
-//
-//   if(!name){
-//     res.status(400).json({error: "Please christen this poor virtual soul"})
-//   }
-//
-//   userdb.update(id, body)
-//   .then(user => {
-//     if(user === 0){
-//       res.status(400).json({message: 'This Id does not exist'})
-//     }
-//     else{
-//       res.status(200).json(user)
-//     }
-//   })
-//   .catch(err => {
-//     console.log(err)
-//     res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
-//   })
-// })
+server.put('/users/:id', capatlize, (req, res) =>{
+
+  const id = req.params.id;
+  const name = req.body.name;
+  const body = req.body
+
+  if(!name){
+    res.status(400).json({error: "Please christen this poor virtual soul"})
+  }
+
+  userdb.update(id, body)
+  .then(user => {
+    if(user === 0){
+      res.status(400).json({message: 'This Id does not exist'})
+    }
+    else{
+      res.status(200).json(user)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+    res.status(500).json({message: "Failed to update user, please discipline database accordingly"})
+  })
+})
 //Listener
 server.listen(8000, ( ) => console.log('\n == API on port 8000 =='))
